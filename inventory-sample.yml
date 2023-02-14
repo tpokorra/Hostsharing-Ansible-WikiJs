@@ -1,0 +1,23 @@
+wikijs:
+  hosts:
+    xyz00:
+      ansible_ssh_host: xyz00.hostsharing.net
+      ansible_ssh_user: xyz00
+      pac: xyz00
+      domain: wiki.example.org
+      user: wikijs
+      password: testpassw0rd_changeme
+
+      db_name: wikijs
+      db_user: wikijs
+      db_password: testpassw0rd2_changeme
+
+      wikijs_port: 3000
+
+      # see https://nodejs.org/en/about/releases/
+      noderelease: 16
+      # see https://nodejs.org/download/release/latest-v16.x/
+      nodeversion: v16.13.1
+
+      # see https://github.com/requarks/wiki/releases
+      wikijs_release: "2.5.296"
