@@ -20,4 +20,4 @@ wikijs:
       nodeversion: v16.13.1
 
       # see https://github.com/requarks/wiki/releases
-      wikijs_release: "2.5.296"
+      wikijs_release: "2.5.297"

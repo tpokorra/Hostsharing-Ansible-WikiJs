@@ -8,8 +8,28 @@
     ansible_remote_tmp: ~/.ansible/tmp
 
   tasks:
-  - name: Create user, domain and database
-    import_tasks: tasks/hs_basis.yml
+  # see separate playbook-init.yml; we need postgresql extension pg_trgm
+  #- name: Create user, domain and database
+  #  import_tasks: tasks/hs_basis.yml
+
+  #################################
+  # check for postgresql extension
+  #################################
+  - name: upload the password for the postgresql database
+    become: yes
+    template:
+      src: "templates/pgpass"
+      dest: "/home/pacs/{{pac}}/users/{{user}}/.pgpass"
+      mode: "700"
+
+  - name: check for pg_trgm
+    become: yes
+    shell: |
+        export ext="pg_trgm"
+        psql --user {{pac}}_{{dbuser}} -c "SELECT * FROM pg_extension where extname = '$ext'" | grep "$ext" || exit -1
+    args:
+      executable: /bin/bash
+      chdir: "/home/pacs/{{pac}}/users/{{user}}/"
 
   #################################
   ## create directories
@@ -68,13 +88,6 @@
   ##################################
   ## configuration
   ##################################
-
-  - name: upload the password for the postgresql database
-    become: yes
-    template:
-      src: "templates/pgpass"
-      dest: "/home/pacs/{{pac}}/users/{{user}}/.pgpass"
-      mode: "700"
 
   - name: upload the config file
     become: yes
